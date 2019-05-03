@@ -6,8 +6,9 @@ Kernels are like filters that extract these features for each channel. The numbe
 
 ## Why should we only (well mostly) use 3x3 Kernels?
 Kernels can be of any size technically. But using kernels of certain size matters. 
-1. Using a kernel of an odd size like 3x3 or 5x5, gives us a reference to the centre and the information about the direction aroung the center.
-2. 3x3 is the smallest kernel size that can be used and it can be combined in any numbers to create a bigger a kernel. Although the effect or the output is the same, using many combined 3x3 kernel can reduce the number of multiplication operations performed.
-E.g.:
+1. Using a kernel of an odd size like 3x3 or 5x5, gives us a reference to the centre and the information about the direction around the center. This helps in capturing spacial information from the data.
+2. 3x3 kernel are the smallest odd sized kernel and they preserve more input information than any larger kernels per step.
+3. 3x3 is the smallest kernel size that can be used and it can be combined in any numbers to create a bigger a kernel. Although the effect or the output is the same, using many combined 3x3 kernel can reduce the number of multiplication operations performed.
+E.g.: 5x5 requires 25 multiplications, 3x3 requires 9 multiplications. 5x5 can be achieved by 2 steps of 3x3 operations which will take 9+9=18 multiplication which is lesser than one 5x5 kernel which uses 25 multiplications.
 
 ## How many times do we need to perform 3x3 convolution operation to reach 1x1 from 199x199 (show calculations)
