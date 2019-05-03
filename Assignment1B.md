@@ -1,8 +1,13 @@
-# EVA
-What are Channels and Kernels (according to EVA)?
-Channels are a bunch of features of a data. Each channel represent a certain feature of the data and all channels together represent the data in its whole. A data can be reresented by any number of channels. For example: An image can be represent for 3 channels, Red, Green and Blue. We can add further channels where one channels can represent shape of a face or just horozontal lines in the image, another for vertical lines. As you see as the number of channels increases the depth of the information of the data increases as well. 
-Kernels are like filters that extract these features for each channel. The number of kernels used is as many as number of channels we want to create.
+# EVA Assignment 1B
 
-Why should we only (well mostly) use 3x3 Kernels?
+## What are Channels and Kernels (according to EVA)?
+Channels are a bunch of features of a given data. Each channel represent a certain feature of the data and all channels together represent the data in its whole. A data can be reresented by any number of channels. For example: An image can be represent with 3 channels, Red, Green and Blue. We can add further channels where one channels can represent horozontal lines in the image, another for vertical lines. As you see as the number of channels increase the depth of the information of the data increases as well. 
+Kernels are like filters that extract these features for each channel. The number of kernels used is as many as the number of channels we want to create.
 
-How many times do we need to perform 3x3 convolution operation to reach 1x1 from 199x199 (show calculations)
+## Why should we only (well mostly) use 3x3 Kernels?
+Kernels can be of any size technically. But using kernels of certain size matters. 
+1. Using a kernel of an odd size like 3x3 or 5x5, gives us a reference to the centre and the information about the direction aroung the center.
+2. 3x3 is the smallest kernel size that can be used and it can be combined in any numbers to create a bigger a kernel. Although the effect or the output is the same, using many combined 3x3 kernel can reduce the number of multiplication operations performed.
+E.g.:
+
+## How many times do we need to perform 3x3 convolution operation to reach 1x1 from 199x199 (show calculations)
