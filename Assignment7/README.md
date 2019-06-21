@@ -1,4 +1,5 @@
-# EVA
+# ENAS discovered network for image classification
+## RF is calculated for the paths that covered highest local RF
 
 r0 = 1, jin = 1
 
