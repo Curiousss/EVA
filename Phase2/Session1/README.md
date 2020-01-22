@@ -1,10 +1,14 @@
 
-### Implementation of Embedding Layer with fully connected layers:
+# Implementation of Embedding Layer with fully connected layers:
 - Code extracted from http://faculty.neu.edu.cn/yury/AAI/Textbook/Deep%20Learning%20with%20Python.pdf
 - Raw IMDB Dataset downloaded from  http://mng.bz/0tIo 
 - Precomputed embeddings downloaded from https://nlp.stanford.edu/projects/glove, 2014 English Wikipedia. It’s an 822 MB zip file called glove.6B.zip, containing 100-dimensional embedding vectors for 400,000 words (or nonword tokens)
 
 (Used 2 different notebooks for same with different training sample values. It could have been coded in the 1 notebook using functions.)
+
+The tokenizer found 88582 unique tokens from the IMDB dataset out of 25000 reviews. 
+
+### Results:
 
 1. 200 training samples:
 
