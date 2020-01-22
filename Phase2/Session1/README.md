@@ -6,7 +6,7 @@
 
 The tokenizer found 88582 unique tokens from the IMDB dataset out of 25000 reviews. But the training uses only 200 reviews in one case and 8000 reviews in another. The results are shared below.
 
-(I used 2 different notebooks for same with different training sample values. It could have been coded in the 1 notebook using functions. The code is commented)
+(I used 2 different notebooks for different training sample values (same code otherwise). It could have been coded in same notebook using functions but I could not give it time. The code is commented)
 
 ### Results:
 
