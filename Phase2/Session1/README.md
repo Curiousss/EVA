@@ -28,7 +28,8 @@ Notes:
 - The model with 200 samples is overfitting with training accuracy reaching 100% and validation accuracy staying at 57.45%.
 - The model with 8000 is better but still overfitting with training accuracy reaching 92.21% and validation accuracy reaching 69.67%. The reason is that there is more training data in this case than just 200 samples in the first case.
 - The validation loss is oscillating throughout the training in both the cases.
-- Using a pre-trained embedding values has made the learning quick as the these results were obtained just within 10 epochs.
-- As a next step for further study, perhaps better results can be obtained by training with more samples, increasing the maximum length of each review, adding more layers to the model, running for more epochs. But all these improvements might reach a saturation since fully connected layers have limited capacity to learn sequence and context.
+- Using a pre-trained embedding values has made the learning quick as the these results were obtained just within 10 epochs. 
+- Currently the pre-trained embedding layer is frozen but if it is fine tuned by enabling training the accuracy will definitely increase. That can be the next step.
+- Further perhaps better results can be obtained by training with more samples, increasing the maximum length of each review, adding more layers to the model, running for more epochs. 
 
 ## Upload the *.tsv files here http://projector.tensorflow.org/ for embedding projections.
