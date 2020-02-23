@@ -11,19 +11,20 @@ Code: http://ai.berkeley.edu/reinforcement.html
    - Initialise the states
    - Initilialise the probabilities for each next state
    - For each number if Iterations:
-         - Copy values
+         * Copy values
          For each state:
-            - Initialize Final Value to None
+            * Initialize Final Value to None
             for each action in possible Actions:
-               - currentValue is computeQValueFromValues from current state, current action
-               - if FinalValue = None or < CurrentValue
-                  - FinalValue=CurrentValue
-            - if FinalValue = None
-               - FinalValue = 0
-            - Values Copy for current State = Final Value
-         - Update class values to Values copy        
+               * currentValue is computeQValueFromValues from current state, current action
+               * if FinalValue = None or < CurrentValue
+                  * FinalValue=CurrentValue
+            * if FinalValue = None
+               * FinalValue = 0
+            * Values Copy for current State = Final Value
+         * Update class values to Values copy        
    
 2. getQValue
+   Return Values of the given state.
 3. computeValueFromQValue
 4. computeActionFromQValues
 5. getAction
