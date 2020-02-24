@@ -22,3 +22,4 @@ Input images are scaled to the values between -1 to 1
 - Has 5 Transpose Convolution Layers
 - Uses ReLU
 - The last layer is the tanh activation function
+- The output is the 128x128x3 image
