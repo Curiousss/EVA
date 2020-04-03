@@ -35,12 +35,21 @@
 - s' is the next observation that is not seen yet, and the AT is guessing the action a'
 - s'-> AT-> a' x gaussian noise 
 - Gaussian noise is used because we are trying to predicted for a next unseen observation. The noise also adds stochasticity. Since it gives a range of possible values it gives stability to the Critic.
-- (s', a') -> CT1 - > Q1(s', a')
-- (s', a') -> CT2 - > Q2(s', a')
-- Q_final_Target = R x gamma x minimum(Q1, Q2)
+- (s', a') -> CT1 - > Qt1(s', a')
+- (s', a') -> CT2 - > Qt2(s', a')
+- Q_final_Target = R x gamma x minimum(Qt1, Qt2)
 
 - s is the current observation 
 - (s, a) -> CM1 -> Qm1(s,a)
 - (s, a) -> CM2 -> Qm2(s,a)
 - Critic Loss = MSELoss (Qm1(s,a), Q_final_Target) + MSELoss (Qm2(s,a), Q_final_Target)
 - Backprop the Critic Loss to CM1 and CM2
+
+- s -> AM -> a
+- (s, a) -> CT1 - > Qt1(s', a')
+- (s', a') -> CT2 - > Qt2(s', a')
+- > Actor Loss = Maximize V values
+- Backpropagate on AM
+
+- After repeating all the above steps twice update the Targets(A, C1 and C2) using Polyal Averaging (Delayed).
+- W' = tau * W + (1 - tau) * W'
