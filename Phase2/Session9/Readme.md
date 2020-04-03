@@ -1,13 +1,16 @@
 - Continuous Action Spaces, we use the quatntiy of the Q values as well. Hence we do not use Softmax since the value of the prediction is used.
 #### Actor
 - Actor runs randomly to fill the expereince replay.
+- Many Actors are running Asynchronously to fill the replay buffer.
 - The actor predicts the Q values for all actions and Critic predicts the Maximum Q value. We train the model to predict same values for both, Indirectly.
 
 #### Critic
 - The Crtic trains the Actor
 - Critic uses historical data, it has access to all future states. The nextObs is used to calculate Q value
 - It aims to maximize Q value. The Actor is trained to predict action for which Critic predicts maximum Q value.
-- The Critic is greedy
+- The Critic is greedy we have 2 Critics(There can be more than 2 critics theoritically.). Ee pick minimum of the maximum Qvalues predicted by Critic1 and Critic2. The Critic is being conservative. 
+- Both Critic 1 and 2 are updated equally.
+- The Critic Target is the final model that will be used
 
 
 #### Model
@@ -23,3 +26,7 @@
 - 4 similar DNNs are created for Critic 1 Model and Target, and Critic 2 Model and Target.
 - Critic is run and updated twice before updating the model.
 - The Actor Model takes next state(which has not yet happened).
+
+- Critics Model 1 and 2 are run twice and back propagated
+- Then Actor Model is back propagated
+- Then the Target Actor, Critic 1 and 2 are updated using Polyak Averaging
