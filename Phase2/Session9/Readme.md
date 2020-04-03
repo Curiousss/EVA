@@ -1,4 +1,4 @@
-#T3D
+# T3D
 ## Concept and Code
 
 ### Introduction
@@ -40,8 +40,6 @@ Continuous Action Spaces, we use the quatntiy of the Q values as well. Hence we 
 
 # CODE
   
-  INITIALIZATION  We initialize the Experience Replay Memory, with a size of 20000. We will populate it with each new transition
-
 
 
 ```python
@@ -61,6 +59,7 @@ from collections import deque
 
 ```
 
+### STEP 1: INITIALIZATION
 * We initialize the Experience Replay Memory with a size of `max_size` 1e6. Then we populate it with new transitions. 
 * 100000 episodes and 100 batch size, each episode is (s, s', a, r)
 * Allow the Agent to run randomly and fill up the Replay Buffer `addTransition`. The actions played by the Actor Model.
@@ -102,7 +101,7 @@ def sample(self, batch_size):
           np.array(batch_dones).reshape(-1, 1)
 ```
 
-We build TWO kinds of actor models. One called the Actor Model and another called the Actor Target.
+### Step 2: We build TWO kinds of actor models. One called the Actor Model and another called the Actor Target.
 
 Build one DNN is defined to be used for both the Actor model and the Actor Target.
 The Actor Model is trained using Back Propagation while training on Experience Replay buffer.
@@ -139,7 +138,7 @@ def forward(self,x):
   return x
 ```
 
-STEP 3 We define 1 DNN for Critic 1 and 2. 
+### STEP 3 We define 1 DNN for Critic 1 and 2. 
 Critic 1 and 2 are just different set of layers in a neural network. `Forward` function returns 2 outputs from 2 different layers from critic 1 and 2. 
 We Build 2 DNNs, for the two Critic models and two for the two Critic Targets
 
@@ -187,7 +186,7 @@ def Q1(self, x, u):
   return x1
 ```
 
-Training process. Create a T3D class, initialize variables and get ready for step 4
+### Step 4 - 15 Training process. Create a T3D class, initialize variables and get ready for step 4
 
 The `actor` is the Actor Model that is trained using the backpropagation.
 The `actor` and `actor_target` are initialized using `state_dims, action_dim, max_action`, same as explained earlier.
@@ -233,8 +232,7 @@ def select_action(self, state):
 
 ```
 
-
-Sample from a batch of transitions (s, s', a, r) from the memory
+### Step 4: Sample from a batch of transitions (s, s', a, r) from the memory
 
 * `replay_buffer` is replay buffer object defined earlier, 
 * `iterations` is number of iterations of the training, 
@@ -264,17 +262,16 @@ def train(self, replay_buffer, iterations, batch_size=100, discount=0.99, \
     done = torch.Tensor (batch_dones).to(device)
 ```
 
-Step 5: 
-From the next state s\`, the Actor target plays the next action a\`. Both are used later by the Critic.
-- s' is the next observation that is not seen yet, and the AT is predicting the next action a'
+### Step 5: From the next state s\`, the Actor target plays the next action a\`. 
+Both are used later by the Critic.
 
 
 ```python
 self.actor_target.forward(next_state)
 ```
 
-We add Gaussian noise to this next action a'. This is the same as exploration!
-Step 6:
+### Step 6:: We add Gaussian noise to this next action a'. This is the same as exploration!
+
 - s'-> AT-> a' x gaussian noise 
 - Gaussian noise is used because we are trying to predicted for a next unseen observation. The noise also adds stochasticity. Since it gives a range of possible values it gives stability to the Critic.
 
@@ -289,8 +286,7 @@ noise = noise.clamp(-noise_clip, noise_clip)
 next_action = (next_action + noise).clamp(-self.max_action, self.max_action)
 ```
 
- STEP 7 
-The two Critic targets take each the couple (s', a') the `next_state` and `next_action` calculated earlier as input and return two Q values,
+ ### STEP 7 The two Critic targets take each the couple (s', a') the `next_state` and `next_action` calculated earlier as input and return two Q values,
 `target_Q1`(s', a') and `target_Q2`(s', a') as outputs
 - (s', a') -> CT1 - > Qt1(s', a')
 - (s', a') -> CT2 - > Qt2(s', a')
@@ -301,8 +297,8 @@ The two Critic targets take each the couple (s', a') the `next_state` and `next_
 target_Q1, target_Q2 = self.critic_target.forward(next_state, next_action)
 ```
 
-STEP 8 
-Keep the minimum of these two Q-Values. his is not target_Q, we are just being lazy, and want to use the same variable name later on. 
+### STEP 8: Keep the minimum of these two Q-Values. 
+This is not target_Q, we are just being lazy, and want to use the same variable name later on. 
 
 It represents the approximated values of the next state.
 Taking a minimum of the 2 Q-values prevents too optimistic estimates of that value of the state!
@@ -314,8 +310,7 @@ In classic Actor-Critic Method (with 1 Critic) we had overly optimistic estimate
 target_Q = torch.min(target_Q1, target_Q2)
 ```
 
- STEP 9 
-We get the final target of the two Critic models, which is:
+### STEP 9: We get the final target of the two Critic models, which is:
 
 Qt = `reward` + `discount`  * `Qt`
 
@@ -332,8 +327,7 @@ We use Pytorch detach to copy the value or make a branch to avoid target_Q to cr
 target_Q = reward + ((1-done) * discount * target_Q).detach()
 ```
 
- STEP 10 
-Two critic models take (s, a) the current state and current action and return two Q-Values respectively.
+### STEP 10: Two critic models take (s, a) the current state and current action and return two Q-Values respectively.
 - s is the current observation 
 - (s, a) -> CM1 -> Qm1(s,a)
 - (s, a) -> CM2 -> Qm2(s,a)
@@ -344,17 +338,14 @@ Two critic models take (s, a) the current state and current action and return tw
 current_Q1, current_Q2 = self.critic.forward(state, action)
 ```
 
- STEP 11 
- 
- We compute the loss coming from the two Critic models: 
+### STEP 11: We compute the loss coming from the two Critic models: 
 - Critic Loss = MSELoss (Qm1(s,a), Q_final_Target) + MSELoss (Qm2(s,a), Q_final_Target)
 
 ```python
 critic_loss = Mse_loss(current_Q1, target_Q) + F.mse_loss(current_Q2, target_Q)
 ```
 
- STEP 12 
-Backpropagate this critic loss and update the parameters of two
+### STEP 12:Backpropagate this critic loss and update the parameters of two
 Critic models with Adam Optimizer
 
 
@@ -364,8 +355,7 @@ critic_loss.backward() #Computing the gradients
 self.critic_optimizer.step() #Performing the weight updates
 ```
 
- STEP 13 
-Once every two iterations defined by `policy_freq`, we update our Actor model by performing gradient ASCENT on the output of the first Critic model. 
+### STEP 13 Once every two iterations defined by `policy_freq`, we update our Actor model by performing gradient ASCENT on the output of the first Critic model. 
 * First call Actor Model with Current state to get current action.
 * Call the Q1 forward funtion of Critic(that does not backprop on Critic) send Current state and current actionusing to get the Q value.
 * Take a mean of that Q value (of all the Asynchonous Actors of a batch)
@@ -388,11 +378,9 @@ if it % policy_freq == 0:
   self.actor_optimizer.step()
 ```
 
- STEP 14 
+### STEP 14: Once in every two iterations, we update our Actor Target by Polyak Averaging.
+
 By now the Critics are updated 4 times.
-
-Once in every two iterations, we update our Actor Target by Polyak Averaging.
-
 The parameters in Actor Model and Actor Target are defined from same Actor class so each parameter can be paired respectively and iteratied using `zip` and `for` loop.
 
 * For each parameter in Actor Model `param` and Actor Target `target_param`, update parameters of Actor Target directly using the respective parameter of the Actor Model using the  Polyak Averaging Equation:
@@ -416,8 +404,7 @@ for param, target_param in zip(self.actor.parameters (), self.actor_target.param
 
 This way our target comes closer to the model. 
 
- STEP 15 
-In once every two iterations, we update our Critic Target by Polyak Averaging
+## STEP 15: In once every two iterations, we update our Critic Target by Polyak Averaging
 Similar to the way the Actor Target is updated as explained in the previous step.
 
 Where is the DELAYED part of the T3D?
