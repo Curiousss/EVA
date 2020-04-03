@@ -1,4 +1,12 @@
-- Continuous Action Spaces, we use the quatntiy of the Q values as well. Hence we do not use Softmax since the value of the prediction is used.
+#T3D
+## Concept and Code
+
+### Introduction
+
+Before getting into the details of the code lets get the overall picture of T3D.
+
+Continuous Action Spaces, we use the quatntiy of the Q values as well. Hence we do not use Softmax since the value of the prediction is used.
+
 #### Actor
 - Actor runs randomly to fill the expereince replay.
 - Many Actors are running Asynchronously to fill the replay buffer.
@@ -8,10 +16,9 @@
 - The Crtic trains the Actor
 - Critic uses historical data, it has access to all future states. The nextObs is used to calculate Q value
 - It aims to maximize Q value. The Actor is trained to predict action for which Critic predicts maximum Q value.
-- The Critic is greedy we have 2 Critics(There can be more than 2 critics theoritically.). Ee pick minimum of the maximum Qvalues predicted by Critic1 and Critic2. The Critic is being conservative. 
+- The Critic is greedy we have 2 Critics(There can be more than 2 critics theoritically.). We pick minimum of the maximum Qvalues predicted by Critic1 and Critic2. The Critic is being conservative. 
 - Both Critic 1 and 2 are updated equally.
 - The Critic Target is the final model that will be used
-
 
 #### Model
 - Trained using backpropagation, like a short term memory of events.
@@ -24,35 +31,10 @@
 #### Flow
 - 2 similar DNNS for Actor Model and Target
 - 4 similar DNNs are created for Critic 1 Model and Target, and Critic 2 Model and Target.
-- Critic is run and updated twice before updating the model.
-- The Actor Model takes next state(which has not yet happened).
-
 - Critics Model 1 and 2 are run twice and back propagated
-- Then Actor Model is back propagated
+- Then Actor Model is run and back propagated
 - Then the Target Actor, Critic 1 and 2 are updated using Polyak Averaging
 
-- 100000 episodes and 100 batch size, each episode is (s, s', a, r)
-- s' is the next observation that is not seen yet, and the AT is guessing the action a'
-- s'-> AT-> a' x gaussian noise 
-- Gaussian noise is used because we are trying to predicted for a next unseen observation. The noise also adds stochasticity. Since it gives a range of possible values it gives stability to the Critic.
-- (s', a') -> CT1 - > Qt1(s', a')
-- (s', a') -> CT2 - > Qt2(s', a')
-- Q_final_Target = R x gamma x minimum(Qt1, Qt2)
-
-- s is the current observation 
-- (s, a) -> CM1 -> Qm1(s,a)
-- (s, a) -> CM2 -> Qm2(s,a)
-- Critic Loss = MSELoss (Qm1(s,a), Q_final_Target) + MSELoss (Qm2(s,a), Q_final_Target)
-- Backprop the Critic Loss to CM1 and CM2
-
-- s -> AM -> a
-- (s, a) -> CT1 - > Qt1(s', a')
-- (s', a') -> CT2 - > Qt2(s', a')
-- > Actor Loss = Maximize V values
-- Backpropagate on AM
-
-- After repeating all the above steps twice update the Targets(A, C1 and C2) using Polyal Averaging (Delayed).
-- W' = tau * W + (1 - tau) * W'
 
 
 
@@ -79,19 +61,14 @@ from collections import deque
 
 ```
 
-We initialize the Experience Replay Memory with a size of `max_size` 1e6.
-Then we populate it with new transitions.
-Allow the Agent to run randomly and fill up the Replay Buffer `addTransition`. 
-We need the Replay Buffer/Memory ready before training the Critic.
-We run full episodes with the first 10,000 actions played randomly, and then with actions played by the Actor Model. This is required to fill up the Replay Memory. 
-
-
-The replay buffer, `storage` is an array and the `ptr` is moved from postion 0 to end as and when the trasitions are added, after reaching the end that is `max_size`, the pointer resets to 0 and the new transitions are over-written and this continues.
-
-`sample` samples a `batch_size` of data randomly from the `storage` replay buffer. the length of `storage` maybe less than or equal to `max_size` while `storage` replay buffer is still getting updated.
-`batch_dones` is a `done` switch for each batch to check if the episode is done completely or not.
-
-Make any array each for `batch_states, batch_next_states, batch_actions, batch_rewards, batch_dones`from element of the tuple (`state, next_state, action, reward, done`) which the tranistion from each entry in the `storage`. There will no duplicate copies of these entries but multiple references to the memory location is used. Now return these new arrays.
+* We initialize the Experience Replay Memory with a size of `max_size` 1e6. Then we populate it with new transitions. 
+* 100000 episodes and 100 batch size, each episode is (s, s', a, r)
+* Allow the Agent to run randomly and fill up the Replay Buffer `addTransition`. The actions played by the Actor Model.
+* We need the Replay Buffer/Memory ready before training the Critic.
+* The replay buffer, `storage` is an array and the `ptr` is moved from postion 0 to end as and when the trasitions are added, after reaching the end that is `max_size`, the pointer resets to 0 and the new transitions are over-written and this continues.
+* `sample` samples a `batch_size` of data randomly from the `storage` replay buffer. the length of `storage` maybe less than or equal to `max_size` while `storage` replay buffer is still getting updated.
+* `batch_dones` is a `done` switch for each batch to check if the episode is done completely or not.
+* Make any array each for `batch_states, batch_next_states, batch_actions, batch_rewards, batch_dones`from element of the tuple (`state, next_state, action, reward, done`) which the tranistion from each entry in the `storage`. (or efficiency There will no duplicate copies of these entries but multiple references to the memory location is used. Now return these new arrays.)
 
 
 ```python
@@ -267,7 +244,6 @@ Sample from a batch of transitions (s, s', a, r) from the memory
 * `policy_noise` = 0.2 noise added to the actions, 
 * `noise_clip`=0.5 maximum quantity of the action based on the given environment, 
 * `policy_freq`=2 how often the Actor is updated
-
 For the number of `iterations` defined repeat:
 * Get an array of sample of transitions from `replay_buffer` of size `batch_size`
 * The sample is the set of arrays `batch_states, batch_next_states, batch_actions, batch_rewards, batch_dones` as explained earlier.
@@ -289,7 +265,8 @@ def train(self, replay_buffer, iterations, batch_size=100, discount=0.99, \
 ```
 
 Step 5: 
-From the next state s\`, the Actor target plays the next action a\`. Both are used later by the Critic
+From the next state s\`, the Actor target plays the next action a\`. Both are used later by the Critic.
+- s' is the next observation that is not seen yet, and the AT is predicting the next action a'
 
 
 ```python
@@ -297,10 +274,13 @@ self.actor_target.forward(next_state)
 ```
 
 We add Gaussian noise to this next action a'. This is the same as exploration!
+Step 6:
+- s'-> AT-> a' x gaussian noise 
+- Gaussian noise is used because we are trying to predicted for a next unseen observation. The noise also adds stochasticity. Since it gives a range of possible values it gives stability to the Critic.
+
 The noise is calculated by applying `normal_` function from `Torch` on the `batch_actions` which is the array of all actions in the given sample. The mean is 0 and standard deviation is `policy_noise` which is a hyper parameter.
 Then we clamp the noise to a set limit using `noise_clip` which is a hyper parameter.
 After applying this noise to `next_action` the `next_action` is also clamped in a range of action values supported by the environment using `max_actions`
-Step 6:
 
 
 ```python
@@ -312,8 +292,8 @@ next_action = (next_action + noise).clamp(-self.max_action, self.max_action)
  STEP 7 
 The two Critic targets take each the couple (s', a') the `next_state` and `next_action` calculated earlier as input and return two Q values,
 `target_Q1`(s', a') and `target_Q2`(s', a') as outputs
-
-
+- (s', a') -> CT1 - > Qt1(s', a')
+- (s', a') -> CT2 - > Qt2(s', a')
 
 
 
@@ -321,7 +301,8 @@ The two Critic targets take each the couple (s', a') the `next_state` and `next_
 target_Q1, target_Q2 = self.critic_target.forward(next_state, next_action)
 ```
 
- STEP 8 Keep the minimum of these two Q-Values. his is not target_Q, we are just being lazy, and want to use the same variable name later on. 
+STEP 8 
+Keep the minimum of these two Q-Values. his is not target_Q, we are just being lazy, and want to use the same variable name later on. 
 
 It represents the approximated values of the next state.
 Taking a minimum of the 2 Q-values prevents too optimistic estimates of that value of the state!
@@ -353,6 +334,10 @@ target_Q = reward + ((1-done) * discount * target_Q).detach()
 
  STEP 10 
 Two critic models take (s, a) the current state and current action and return two Q-Values respectively.
+- s is the current observation 
+- (s, a) -> CM1 -> Qm1(s,a)
+- (s, a) -> CM2 -> Qm2(s,a)
+
 
 
 ```python
@@ -362,7 +347,7 @@ current_Q1, current_Q2 = self.critic.forward(state, action)
  STEP 11 
  
  We compute the loss coming from the two Critic models: 
-
+- Critic Loss = MSELoss (Qm1(s,a), Q_final_Target) + MSELoss (Qm2(s,a), Q_final_Target)
 
 ```python
 critic_loss = Mse_loss(current_Q1, target_Q) + F.mse_loss(current_Q2, target_Q)
@@ -385,6 +370,13 @@ Once every two iterations defined by `policy_freq`, we update our Actor model by
 * Call the Q1 forward funtion of Critic(that does not backprop on Critic) send Current state and current actionusing to get the Q value.
 * Take a mean of that Q value (of all the Asynchonous Actors of a batch)
 * Take the negative of the mean to perform gradient ascent and Backprop.
+
+- s -> AM -> a
+- (s, a) -> CT - > Qt(s, a)
+- Actor Loss = Mean(Qt)
+- Backpropagate on AM
+
+- After repeating all the above steps twice update the Targets(A, C1 and C2) using Polyal Averaging (Delayed).
 
 
 ```python
