@@ -412,6 +412,10 @@ This way our target comes closer to the model.
 
 ## STEP 15: In once every two iterations, we update our Critic Target by Polyak Averaging
 Similar to the way the Actor Target is updated as explained in the previous step.
+## Sequence
+### 1. Critics Model 1 and 2 are run twice and back propagated
+### 2. Then Actor Model is run and back propagated
+### 3. Then the Target Actor, Critic 1 and 2 are updated using Polyak Averaging
 
 Where is the DELAYED part of the T3D?
 We update our models at every step, but our target once every two steps. 
