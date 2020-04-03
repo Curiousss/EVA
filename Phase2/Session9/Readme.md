@@ -30,3 +30,17 @@
 - Critics Model 1 and 2 are run twice and back propagated
 - Then Actor Model is back propagated
 - Then the Target Actor, Critic 1 and 2 are updated using Polyak Averaging
+
+- 100000 episodes and 100 batch size, each episode is (s, s', a, r)
+- s' is the next observation that is not seen yet, and the AT is guessing the action a'
+- s'-> AT-> a' x gaussian noise 
+- Gaussian noise is used because we are trying to predicted for a next unseen observation. The noise also adds stochasticity. Since it gives a range of possible values it gives stability to the Critic.
+- (s', a') -> CT1 - > Q1(s', a')
+- (s', a') -> CT2 - > Q2(s', a')
+- Q_final_Target = R x gamma x minimum(Q1, Q2)
+
+- s is the current observation 
+- (s, a) -> CM1 -> Qm1(s,a)
+- (s, a) -> CM2 -> Qm2(s,a)
+- Critic Loss = MSELoss (Qm1(s,a), Q_final_Target) + MSELoss (Qm2(s,a), Q_final_Target)
+- Backprop the Critic Loss to CM1 and CM2
