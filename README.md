@@ -8,6 +8,11 @@ Explaination with diagrams for existing code
 - Asynchronous Advantage Actor Critic (A3C): Flow chart of functions for existing code
 - Deep Q Learning (DQN) agent on the CartPole-v0 task from the OpenAI Gym:  Flow chart of functions for existing code
 
+##### Session 7: Self Driving car using Kivy and Neural network with Full connected layers
+- Enhance the model in the existing code
+- Update the parameters
+- Test with different maps.
+
 ## Convolutional Neural Networks and Computer Vision
 1. Assignment 1 : Types of Kernels and convolutional arithmetic
 2. Assignment 2 : Receptive field
