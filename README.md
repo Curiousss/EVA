@@ -1,5 +1,14 @@
-# EVA
-Convolutional Neural Networks and Computer Vision
+# Extensive AI projects
+
+## Phase 2: Reinforcement Learning
+#### Session 9: T3D OR TWIN DELAYED DDPG
+Explaination with diagrams for existing code
+
+#### Session 8: 
+- Asynchronous Advantage Actor Critic (A3C): Flow chart of functions for existing code
+- Deep Q Learning (DQN) agent on the CartPole-v0 task from the OpenAI Gym:  Flow chart of functions for existing code
+
+## Convolutional Neural Networks and Computer Vision
 1. Assignment 1 : Types of Kernels and convolutional arithmetic
 2. Assignment 2 : Receptive field
 3. Assignment 3 : MNIST 99.4% with < 20000 Parameters, Vanilla network (no BN, DropOut, LR, larger batch size, change in Optimizer, etc)
