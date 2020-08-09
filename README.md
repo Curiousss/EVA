@@ -1,6 +1,6 @@
-# Extensive AI projects
+# Extensive AI projects in Pytorch, Keras, Tensorflow
 
-## Phase 2: Reinforcement Learning, LSTM, RNN, Embedding, Pytorch
+## Phase 2: Reinforcement Learning, LSTM, RNN, Embedding
 ## Phase 1: Computer Vision
 
 ### Phase2/Session 9: T3D OR TWIN DELAYED DDPG
@@ -49,6 +49,19 @@ Horizontal Flip (0.5)
 Optimizer: SGD, Weight-Decay: 5e-4
 NOT-OneCycleLR
 300 Epochs
+
+### Assignment 12: Using OneCycleLR / CyclicLR for CIFAR10 image classification
+
+### Assignment 11: Grad Cam on CIFAR10 Classification 
+CutOut for augmentation
+LR Finder to find the best starting learning rate
+SDG with Momentum
+Train for 100 Epochs. 
+Run GradCAM on the any 25 misclassified images with prediction and ground truth label displayed.
+
+### Assignment 10: Grad Cam 
+Build GradCam for different layers
+Find "sunglasses" in a given image using GradCAM and display.
 
 ### Assignment 1 : Types of Kernels and convolutional arithmetic
 ### Assignment 2 : Receptive field
