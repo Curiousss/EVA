@@ -1,6 +1,7 @@
 # Extensive AI projects
 
-## Phase 2: Reinforcement Learning
+## Phase 2: Reinforcement Learning, LSTM, RNN, Embedding
+Pytorch
 ### Session 9: T3D OR TWIN DELAYED DDPG
 Explaination with diagrams for existing code
 
@@ -13,7 +14,6 @@ Explaination with diagrams for existing code
 - Update the parameters
 - Test with different maps.
 
-## Phase 2: Pytorch
 ### Session 5: MNIST Dataset classification in Pytorch with following features:
 - less than 15k params
 - uses dropout of 0.1 
@@ -23,13 +23,10 @@ Explaination with diagrams for existing code
 - achieves 99.3% test accuracy
 - less than 15 epochs. 
 
-## Phase 2: LSTM
 ### Session 3: Implementation of the internal LSTM layer from scratch.
 
-## Phase 2: RNN
 ### Session 2: Exploring RNN and embedding layers.
 
-## Phase 2: Embedding
 ### Session 1:Precomputed Glove embeddings
 Precomputed embeddings downloaded from https://nlp.stanford.edu/projects/glove. Train the GLOVE based model with 8000 samples
 
