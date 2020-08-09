@@ -32,10 +32,27 @@ Explaination with diagrams for existing code
 Precomputed embeddings downloaded from https://nlp.stanford.edu/projects/glove. Train the GLOVE based model with 8000 samples
 
 ## Convolutional Neural Networks and Computer Vision
-1. Assignment 1 : Types of Kernels and convolutional arithmetic
-2. Assignment 2 : Receptive field
-3. Assignment 3 : MNIST 99.4% with < 20000 Parameters, Vanilla network (no BN, DropOut, LR, larger batch size, change in Optimizer, etc)
-4. Assignment 4 : 99.4% accuracy Less than 15k Parameters(with BN, DropOut, LR, larger batch size, change in Optimizer, etc)
 
-25. Car Image Generation with GANs
+### Assignment 25: Car Image Generation with GANs using pytorch
+
+### Assignment 20: Resnet 18 pretrained with Imagenet.
+The Cifar 100 images were resized to 197x197, normalized, and then flip and rotation augmentations were applied.
+Layer 3 and 4 of Resnet 18 were unfrozen and made trainable while all other bottom layers were frozen. This was necessary since I am adding one Fully connected layer to get 100 outputs for the classifier which would not be enough to learn the new classes of images.
+Working with learning rate was tricky. In first 20 epcohs the accuracy was 79% Then again 5 epochs were run with very low learning rate to reach 80%
+
+### Assignment 13: ResNet18 model:
+Modular implementation of Conv in blocks (B1->B2->B3->B4)
+Batch Size 128
+Normalization values of: (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
+Random Crop of 32 with padding of 4px
+Horizontal Flip (0.5)
+Optimizer: SGD, Weight-Decay: 5e-4
+NOT-OneCycleLR
+300 Epochs
+
+### Assignment 1 : Types of Kernels and convolutional arithmetic
+### Assignment 2 : Receptive field
+### Assignment 3 : MNIST 99.4% with < 20000 Parameters, Vanilla network (no BN, DropOut, LR, larger batch size, change in Optimizer, etc)
+### Assignment 4 : 99.4% accuracy Less than 15k Parameters(with BN, DropOut, LR, larger batch size, change in Optimizer, etc)
+
 
