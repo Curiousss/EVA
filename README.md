@@ -63,9 +63,30 @@ Run GradCAM on the any 25 misclassified images with prediction and ground truth 
 Build GradCam for different layers
 Find "sunglasses" in a given image using GradCAM and display.
 
-### Assignment 1 : Types of Kernels and convolutional arithmetic
-### Assignment 2 : Receptive field
-### Assignment 3 : MNIST 99.4% with < 20000 Parameters, Vanilla network (no BN, DropOut, LR, larger batch size, change in Optimizer, etc)
+### Assignment 9: Grad Cam and cutout 
+
+### Assignment 7: Implementation of ENAS discovered network for image classification
+
+### Assignment 6: Implementation using different types of convolutions:
+Normal Convolution
+Spatially Separable Convolution  (Conv2d(x, (3,1)) followed by Conv2D(x,(3,1))
+Depthwise Separable Convolution
+Grouped Convolution (use 3x3, 5x5 only)
+Grouped Convolution (use 3x3 only, one with dilation = 1, and another with dilation = 2) 
+
+### Assignment 5: 
+image normalization
+L2 regularization
+ReLU after BN
+25 misclassified images from the validation dataset displayed as image gallery
+
 ### Assignment 4 : 99.4% accuracy Less than 15k Parameters(with BN, DropOut, LR, larger batch size, change in Optimizer, etc)
+
+### Assignment 3 : MNIST 99.4% with < 20000 Parameters, Vanilla network (no BN, DropOut, LR, larger batch size, change in Optimizer, etc)
+
+### Assignment 2 : Receptive field
+
+### Assignment 1 : Types of Kernels and convolutional arithmetic
+
 
 
